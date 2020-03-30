@@ -40,26 +40,6 @@ class Block:
 
 class Board:
 
-    def __init__(self, table=None):
-        if table is None:
-            self.table = []
-            for row in range(9):
-                row = []
-                for column in range(9):
-                    if random.randrange(5) == 4:
-                        column = random.randint(1, 9)
-                    else:
-                        column = 0
-                    row.append(column)
-                self.table.append(row)
-        else:
-            self.table = table
-        self.blocks = [[], [], [], [], [], [], [], [], []]
-        for rowI, row in enumerate(self.table):
-            for colI, value in enumerate(row):
-                block = Block(value)
-                self.blocks[rowI].append(block)
-
     def valid(self, squares):
         found = []
         for square in squares:
@@ -186,26 +166,35 @@ class Board:
 
         return self
 
+    def __init__(self, table=None):
+        self.blocks = [[], [], [], [], [], [], [], [], []]
+        if table is None:
+            self.table = [[], [], [], [], [], [], [], [], []]
+            for index, row in enumerate(self.blocks):
+                for column in range(9):
+                    row.append(Block(0))
+                    self.table[index].append(0)
+            for row in self.blocks:
+                for block in row:
+                    if random.randrange(1, 5) == 1:
+                        self.set_possible_nums(block)
+                        block.value = block.possible_values[random.randrange(0, len(block.possible_values))]
+                        self.table[block.row][block.column] = block.value
+        else:
+            self.table = table
+            for rowI, row in enumerate(self.table):
+                for colI, value in enumerate(row):
+                    block = Block(value)
+                    self.blocks[rowI].append(block)
+
     def __repr__(self):
         result = ""
         for row in self.table:
             result += f"{row}\n"
         return result
 
-
-# board = Board([[8, 2, 7, 1, 5, 4, 3, 9, 6],
-#                [9, 6, 5, 3, 2, 7, 1, 4, 8],
-#                [3, 4, 1, 6, 8, 9, 7, 5, 2],
-#                [5, 9, 3, 4, 6, 8, 2, 7, 1],
-#                [4, 7, 2, 5, 1, 3, 6, 8, 9],
-#                [6, 1, 8, 9, 7, 2, 4, 3, 5],
-#                [7, 8, 6, 2, 3, 5, 9, 1, 4],
-#                [1, 5, 4, 7, 9, 6, 8, 2, 3],
-#                [2, 3, 9, 8, 4, 1, 5, 6, 7]])
-
-
-# board = Board([[5, 3, 1, 2, 7, 6, 8, 9, 4],
-#                [6, 2, 4, 1, 9, 5, 7, 3, 0],
+# board = Board([[5, 3, 0, 0, 7, 0, 0, 0, 0],
+#                [6, 0, 0, 1, 9, 5, 0, 0, 0],
 #                [0, 9, 8, 0, 0, 0, 0, 6, 0],
 #                [8, 0, 0, 0, 6, 0, 0, 0, 3],
 #                [4, 0, 0, 8, 0, 3, 0, 0, 1],
@@ -214,24 +203,8 @@ class Board:
 #                [0, 0, 0, 4, 1, 9, 0, 0, 5],
 #                [0, 0, 0, 0, 8, 0, 0, 7, 9]])
 
-board = Board([[5, 3, 0, 0, 7, 0, 0, 0, 0],
-               [6, 0, 0, 1, 9, 5, 0, 0, 0],
-               [0, 9, 8, 0, 0, 0, 0, 6, 0],
-               [8, 0, 0, 0, 6, 0, 0, 0, 3],
-               [4, 0, 0, 8, 0, 3, 0, 0, 1],
-               [7, 0, 0, 0, 2, 0, 0, 0, 6],
-               [0, 6, 0, 0, 0, 0, 2, 8, 0],
-               [0, 0, 0, 4, 1, 9, 0, 0, 5],
-               [0, 0, 0, 0, 8, 0, 0, 7, 9]])
+
+board = Board()
 print(board)
 print(board.solve())
 print(board.is_solved())
-# [[8, 2, 7, 1, 5, 4, 3, 9, 6],
-# [9, 6, 5, 3, 2, 7, 1, 4, 8],
-# [3, 4, 1, 6, 8, 9, 7, 5, 2],
-# [5, 9, 3, 4, 6, 8, 2, 7, 1],
-# [4, 7, 2, 5, 1, 3, 6, 8, 9],
-# [6, 1, 8, 9, 7, 2, 4, 3, 5],
-# [7, 8, 6, 2, 3, 5, 9, 1, 4],
-# [1, 5, 4, 7, 9, 6, 8, 2, 3],
-# [2, 3, 9, 8, 4, 1, 5, 6, 7]]
