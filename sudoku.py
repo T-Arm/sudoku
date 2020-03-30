@@ -193,6 +193,8 @@ class Board:
             result += f"{row}\n"
         return result
 
+
+# this is an example board---------
 # board = Board([[5, 3, 0, 0, 7, 0, 0, 0, 0],
 #                [6, 0, 0, 1, 9, 5, 0, 0, 0],
 #                [0, 9, 8, 0, 0, 0, 0, 6, 0],
