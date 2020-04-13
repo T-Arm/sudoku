@@ -177,6 +177,7 @@ class Board:
             for row in self.blocks:
                 for block in row:
                     if random.randrange(1, 5) == 1:
+                        block.isMutable = False
                         self.set_possible_nums(block)
                         block.value = block.possible_values[random.randrange(0, len(block.possible_values))]
                         self.table[block.row][block.column] = block.value
