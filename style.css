@@ -40,7 +40,11 @@ td:hover{
 }
 
 #buttons{
+<<<<<<< HEAD
   width: 400px;
+=======
+  width: 250px;
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
   margin:auto;
 }
 

@@ -1,7 +1,10 @@
 const table = document.querySelector("tbody")
 const generateBTN = document.getElementById("generateBTN")
 const solveBTN = document.getElementById("solveBTN")
+<<<<<<< HEAD
 const quick_solveBTN = document.getElementById("quickSolveBTN")
+=======
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
 let tableGUIList = []
 
 for(i = 0; i < 9; i++){
@@ -186,6 +189,7 @@ class Board {
     return(found)
   }
 
+<<<<<<< HEAD
   backTracked_index_list(block){
     let newColumn = block.column-1
     let newRow = block.row
@@ -202,11 +206,32 @@ class Board {
     }
   }
 
+=======
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
   solve(){
 
     let row = 0
     let column = 0
 
+<<<<<<< HEAD
+=======
+
+    let backTracked_index_list = (block) => {
+      let newColumn = block.column-1
+      let newRow = block.row
+      if(newColumn < 0){
+        newRow -= 1
+        newColumn = 8
+      }
+      const newBlock = this.blocks[newRow][newColumn]
+      console.log(`new Block: ${newBlock}`)
+      if( newBlock.isMutable){
+        return [newRow, newColumn]
+      }else{
+        return backTracked_index_list(newBlock)
+      }
+    }
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
     
     const board = this
 
@@ -228,8 +253,13 @@ class Board {
               block.pastValues = 0
               block.value = 0
               board.table[row][column] = 0
+<<<<<<< HEAD
               tableGUIList[row][column].textContent = ""
               const newIndexLIst = board.backTracked_index_list.call(board, block)
+=======
+              tableGUIList[row][column].textContent = block.value
+              const newIndexLIst = backTracked_index_list.call(board, block)
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
               console.log(newIndexLIst)
               row = newIndexLIst[0]
               column = newIndexLIst[1]
@@ -249,6 +279,7 @@ class Board {
     return this
   }
 
+<<<<<<< HEAD
   quick_solve(){
     let row = 0
     let column = 0
@@ -285,6 +316,24 @@ class Board {
        column = 0
     }
     return board
+=======
+  animate(){
+    let lastCell = null
+    let row = 0
+    let column = 0
+    let loop = setInterval(function(){
+      if(column < 9 && row < 9){
+        console.log([row, column])
+        tableGUIList[row][column].style.background = "green"
+        column++
+      }else if(row < 9){
+        row ++
+        column = 0
+      }else{
+        clearInterval
+      }
+      }, 100)
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
   }
 
   constructor(table=null){
@@ -303,7 +352,11 @@ class Board {
       }
       for(let rowI = 0; rowI < this.blocks.length; rowI++){
         for(let colI = 0; colI < this.blocks[rowI].length; colI++){
+<<<<<<< HEAD
           if(Math.floor(Math.random()*2) === 1){
+=======
+          if(Math.floor(Math.random()*3) === 1){
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
             const block = this.blocks[rowI][colI]
             block.isMutable = false
             this.set_possibe_nums(block)
@@ -326,6 +379,7 @@ class Board {
 }
 
 
+<<<<<<< HEAD
 
 let newBoard = (table) =>{
   // return new Board([[5, 3, 0, 0, 7, 0, 0, 0, 0],
@@ -338,6 +392,19 @@ let newBoard = (table) =>{
   //                   [0, 0, 0, 4, 1, 9, 0, 0, 5],
   //                   [0, 0, 0, 0, 8, 0, 0, 7, 9]])
   return new Board()
+=======
+let newBoard = (table) =>{
+  return new Board([[5, 3, 0, 0, 7, 0, 0, 0, 0],
+                    [6, 0, 0, 1, 9, 5, 0, 0, 0],
+                    [0, 9, 8, 0, 0, 0, 0, 6, 0],
+                    [8, 0, 0, 0, 6, 0, 0, 0, 3],
+                    [4, 0, 0, 8, 0, 3, 0, 0, 1],
+                    [7, 0, 0, 0, 2, 0, 0, 0, 6],
+                    [0, 6, 0, 0, 0, 0, 2, 8, 0],
+                    [0, 0, 0, 4, 1, 9, 0, 0, 5],
+                    [0, 0, 0, 0, 8, 0, 0, 7, 9]])
+  // return new Board()
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
 }
 
 let board
@@ -352,8 +419,12 @@ generateBTN.addEventListener("click", function (){
 solveBTN.addEventListener("click", function(){
   console.log(board)
   console.log(board.solve())
+<<<<<<< HEAD
 })
 
 quick_solveBTN.addEventListener("click", function(){
   console.log(board.quick_solve())
+=======
+  // board.animate()
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
 })
