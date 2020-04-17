@@ -25,9 +25,6 @@ class Block:
     def __repr__(self):
         return f"Position: ({self.row}, {self.column}) Value: {self.value} {self.isMutable} Possible nums: {self.possible_values}"
 
-    def __int__(self):
-        return self.value
-
     def remove_from_possible_nums(self, found):
         newList = []
         for num in range(9):
@@ -40,23 +37,23 @@ class Block:
 
 class Board:
 
-    def valid(self, squares):
+    def valid(self, blockValues):
         found = []
-        for square in squares:
-            if square in found:
+        for value in blockValues:
+            if value in found:
                 return False
             else:
-                found.append(square)
+                found.append(value)
         return True
 
     def box(self, x, y):
-        box = []
+        valueList = []
         for rowIndex, row in enumerate(self.table):
             if 3 * y > rowIndex >= 3 * y - 3:
-                for colInt, column in enumerate(row):
-                    if 3 * x > colInt >= 3 * x - 3:
-                        box.append(column)
-        return box
+                for colInd, column in enumerate(row):
+                    if 3 * x > colInd >= 3 * x - 3:
+                        valueList.append(column)
+        return valueList
 
     def is_solved(self):
 
@@ -196,18 +193,18 @@ class Board:
 
 
 # this is an example board---------
-# board = Board([[5, 3, 0, 0, 7, 0, 0, 0, 0],
-#                [6, 0, 0, 1, 9, 5, 0, 0, 0],
-#                [0, 9, 8, 0, 0, 0, 0, 6, 0],
-#                [8, 0, 0, 0, 6, 0, 0, 0, 3],
-#                [4, 0, 0, 8, 0, 3, 0, 0, 1],
-#                [7, 0, 0, 0, 2, 0, 0, 0, 6],
-#                [0, 6, 0, 0, 0, 0, 2, 8, 0],
-#                [0, 0, 0, 4, 1, 9, 0, 0, 5],
-#                [0, 0, 0, 0, 8, 0, 0, 7, 9]])
+board = Board([[5, 3, 0, 0, 7, 0, 0, 0, 0],
+               [6, 0, 0, 1, 9, 5, 0, 0, 0],
+               [0, 9, 8, 0, 0, 0, 0, 6, 0],
+               [8, 0, 0, 0, 6, 0, 0, 0, 3],
+               [4, 0, 0, 8, 0, 3, 0, 0, 1],
+               [7, 0, 0, 0, 2, 0, 0, 0, 6],
+               [0, 6, 0, 0, 0, 0, 2, 8, 0],
+               [0, 0, 0, 4, 1, 9, 0, 0, 5],
+               [0, 0, 0, 0, 8, 0, 0, 7, 9]])
 
 
-board = Board()
+# board = Board()
 print(board)
 print(board.solve())
 print(board.is_solved())
