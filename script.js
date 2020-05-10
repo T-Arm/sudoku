@@ -1,6 +1,13 @@
 const table = document.querySelector("tbody")
 const generateBTN = document.getElementById("generateBTN")
 const solveBTN = document.getElementById("solveBTN")
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+const quick_solveBTN = document.getElementById("quickSolveBTN")
+=======
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
+>>>>>>> 586204e1423755c4bf5e380378b36dac37b32f41
 let tableGUIList = []
 
 for(i = 0; i < 9; i++){
@@ -185,11 +192,38 @@ class Board {
     return(found)
   }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  backTracked_index_list(block){
+    let newColumn = block.column-1
+    let newRow = block.row
+    if(newColumn < 0){
+      newRow -= 1
+      newColumn = 8
+    }
+    const newBlock = this.blocks[newRow][newColumn]
+    console.log(`new Block: ${newBlock}`)
+    if( newBlock.isMutable){
+      return [newRow, newColumn]
+    }else{
+      return this.backTracked_index_list(newBlock)
+    }
+  }
+
+=======
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
+>>>>>>> 586204e1423755c4bf5e380378b36dac37b32f41
   solve(){
 
     let row = 0
     let column = 0
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 586204e1423755c4bf5e380378b36dac37b32f41
 
     let backTracked_index_list = (block) => {
       let newColumn = block.column-1
@@ -206,6 +240,10 @@ class Board {
         return backTracked_index_list(newBlock)
       }
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
+>>>>>>> 586204e1423755c4bf5e380378b36dac37b32f41
     
     const board = this
 
@@ -227,8 +265,17 @@ class Board {
               block.pastValues = 0
               block.value = 0
               board.table[row][column] = 0
+<<<<<<< HEAD
               tableGUIList[row][column].textContent = ""
+<<<<<<< HEAD
               const newIndexLIst = backTracked_index_list.call(board, block)
+=======
+              const newIndexLIst = board.backTracked_index_list.call(board, block)
+=======
+              tableGUIList[row][column].textContent = block.value
+              const newIndexLIst = backTracked_index_list.call(board, block)
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
+>>>>>>> 586204e1423755c4bf5e380378b36dac37b32f41
               console.log(newIndexLIst)
               row = newIndexLIst[0]
               column = newIndexLIst[1]
@@ -248,10 +295,55 @@ class Board {
     return this
   }
 
+<<<<<<< HEAD
   animate(){
     let lastCell = null
     let row = 0
     let column = 0
+=======
+<<<<<<< HEAD
+  quick_solve(){
+    let row = 0
+    let column = 0
+  
+    while(row < 9){
+      while(column < 9){
+        const block = board.blocks[row][column]
+          console.log(block)
+          board.set_possibe_nums(block)
+          if(block.isMutable){
+            if(block.possibleValues.length > block.pastValues){
+              block.value = block.possibleValues[block.pastValues]
+              console.log(`value: ${block.value}`)
+              block.pastValues++
+              board.table[row][column] = block.value
+              tableGUIList[row][column].textContent = block.value
+              column++
+            }else{
+              console.log("backtracking")
+              block.pastValues = 0
+              block.value = 0
+              board.table[row][column] = 0
+              tableGUIList[row][column].textContent = ""
+              const newIndexLIst = board.backTracked_index_list.call(board, block)
+              console.log(newIndexLIst)
+              row = newIndexLIst[0]
+              column = newIndexLIst[1]
+            }
+          }else{
+            column++
+          }
+       }
+       row ++
+       column = 0
+    }
+    return board
+=======
+  animate(){
+    let lastCell = null
+    let row = 0
+    let column = 0
+>>>>>>> 586204e1423755c4bf5e380378b36dac37b32f41
     let loop = setInterval(function(){
       if(column < 9 && row < 9){
         console.log([row, column])
@@ -264,6 +356,10 @@ class Board {
         clearInterval
       }
       }, 100)
+<<<<<<< HEAD
+=======
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
+>>>>>>> 586204e1423755c4bf5e380378b36dac37b32f41
   }
 
   constructor(table=null){
@@ -282,7 +378,15 @@ class Board {
       }
       for(let rowI = 0; rowI < this.blocks.length; rowI++){
         for(let colI = 0; colI < this.blocks[rowI].length; colI++){
+<<<<<<< HEAD
           if(Math.floor(Math.random()*3) === 1){
+=======
+<<<<<<< HEAD
+          if(Math.floor(Math.random()*2) === 1){
+=======
+          if(Math.floor(Math.random()*3) === 1){
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
+>>>>>>> 586204e1423755c4bf5e380378b36dac37b32f41
             const block = this.blocks[rowI][colI]
             block.isMutable = false
             this.set_possibe_nums(block)
@@ -305,7 +409,25 @@ class Board {
 }
 
 
+<<<<<<< HEAD
 let newBoard = (table) =>{
+=======
+<<<<<<< HEAD
+
+let newBoard = (table) =>{
+  // return new Board([[5, 3, 0, 0, 7, 0, 0, 0, 0],
+  //                   [6, 0, 0, 1, 9, 5, 0, 0, 0],
+  //                   [0, 9, 8, 0, 0, 0, 0, 6, 0],
+  //                   [8, 0, 0, 0, 6, 0, 0, 0, 3],
+  //                   [4, 0, 0, 8, 0, 3, 0, 0, 1],
+  //                   [7, 0, 0, 0, 2, 0, 0, 0, 6],
+  //                   [0, 6, 0, 0, 0, 0, 2, 8, 0],
+  //                   [0, 0, 0, 4, 1, 9, 0, 0, 5],
+  //                   [0, 0, 0, 0, 8, 0, 0, 7, 9]])
+  return new Board()
+=======
+let newBoard = (table) =>{
+>>>>>>> 586204e1423755c4bf5e380378b36dac37b32f41
   return new Board([[5, 3, 0, 0, 7, 0, 0, 0, 0],
                     [6, 0, 0, 1, 9, 5, 0, 0, 0],
                     [0, 9, 8, 0, 0, 0, 0, 6, 0],
@@ -316,6 +438,10 @@ let newBoard = (table) =>{
                     [0, 0, 0, 4, 1, 9, 0, 0, 5],
                     [0, 0, 0, 0, 8, 0, 0, 7, 9]])
   // return new Board()
+<<<<<<< HEAD
+=======
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
+>>>>>>> 586204e1423755c4bf5e380378b36dac37b32f41
 }
 
 let board
@@ -330,5 +456,16 @@ generateBTN.addEventListener("click", function (){
 solveBTN.addEventListener("click", function(){
   console.log(board)
   console.log(board.solve())
+<<<<<<< HEAD
   // board.animate()
+=======
+<<<<<<< HEAD
+})
+
+quick_solveBTN.addEventListener("click", function(){
+  console.log(board.quick_solve())
+=======
+  // board.animate()
+>>>>>>> 4b131521e925a2a9c9f2579348963dca46d9a9ed
+>>>>>>> 586204e1423755c4bf5e380378b36dac37b32f41
 })
