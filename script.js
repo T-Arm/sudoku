@@ -1,7 +1,6 @@
 const table = document.querySelector("tbody")
 const generateBTN = document.getElementById("generateBTN")
 const solveBTN = document.getElementById("solveBTN")
-const quick_solveBTN = document.getElementById("quickSolveBTN")
 let tableGUIList = []
 
 for(i = 0; i < 9; i++){
@@ -186,27 +185,27 @@ class Board {
     return(found)
   }
 
-  backTracked_index_list(block){
-    let newColumn = block.column-1
-    let newRow = block.row
-    if(newColumn < 0){
-      newRow -= 1
-      newColumn = 8
-    }
-    const newBlock = this.blocks[newRow][newColumn]
-    console.log(`new Block: ${newBlock}`)
-    if( newBlock.isMutable){
-      return [newRow, newColumn]
-    }else{
-      return this.backTracked_index_list(newBlock)
-    }
-  }
-
   solve(){
 
     let row = 0
     let column = 0
 
+
+    let backTracked_index_list = (block) => {
+      let newColumn = block.column-1
+      let newRow = block.row
+      if(newColumn < 0){
+        newRow -= 1
+        newColumn = 8
+      }
+      const newBlock = this.blocks[newRow][newColumn]
+      console.log(`new Block: ${newBlock}`)
+      if( newBlock.isMutable){
+        return [newRow, newColumn]
+      }else{
+        return backTracked_index_list(newBlock)
+      }
+    }
     
     const board = this
 
@@ -229,7 +228,7 @@ class Board {
               block.value = 0
               board.table[row][column] = 0
               tableGUIList[row][column].textContent = ""
-              const newIndexLIst = board.backTracked_index_list.call(board, block)
+              const newIndexLIst = backTracked_index_list.call(board, block)
               console.log(newIndexLIst)
               row = newIndexLIst[0]
               column = newIndexLIst[1]
@@ -244,47 +243,27 @@ class Board {
         }else{
           clearInterval(loop)
         }
-    }, 100)
+    }, 1)
      
     return this
   }
 
-  quick_solve(){
+  animate(){
+    let lastCell = null
     let row = 0
     let column = 0
-  
-    while(row < 9){
-      while(column < 9){
-        const block = board.blocks[row][column]
-          console.log(block)
-          board.set_possibe_nums(block)
-          if(block.isMutable){
-            if(block.possibleValues.length > block.pastValues){
-              block.value = block.possibleValues[block.pastValues]
-              console.log(`value: ${block.value}`)
-              block.pastValues++
-              board.table[row][column] = block.value
-              tableGUIList[row][column].textContent = block.value
-              column++
-            }else{
-              console.log("backtracking")
-              block.pastValues = 0
-              block.value = 0
-              board.table[row][column] = 0
-              tableGUIList[row][column].textContent = ""
-              const newIndexLIst = board.backTracked_index_list.call(board, block)
-              console.log(newIndexLIst)
-              row = newIndexLIst[0]
-              column = newIndexLIst[1]
-            }
-          }else{
-            column++
-          }
-       }
-       row ++
-       column = 0
-    }
-    return board
+    let loop = setInterval(function(){
+      if(column < 9 && row < 9){
+        console.log([row, column])
+        tableGUIList[row][column].style.background = "green"
+        column++
+      }else if(row < 9){
+        row ++
+        column = 0
+      }else{
+        clearInterval
+      }
+      }, 100)
   }
 
   constructor(table=null){
@@ -303,7 +282,7 @@ class Board {
       }
       for(let rowI = 0; rowI < this.blocks.length; rowI++){
         for(let colI = 0; colI < this.blocks[rowI].length; colI++){
-          if(Math.floor(Math.random()*2) === 1){
+          if(Math.floor(Math.random()*3) === 1){
             const block = this.blocks[rowI][colI]
             block.isMutable = false
             this.set_possibe_nums(block)
@@ -326,18 +305,17 @@ class Board {
 }
 
 
-
 let newBoard = (table) =>{
-  // return new Board([[5, 3, 0, 0, 7, 0, 0, 0, 0],
-  //                   [6, 0, 0, 1, 9, 5, 0, 0, 0],
-  //                   [0, 9, 8, 0, 0, 0, 0, 6, 0],
-  //                   [8, 0, 0, 0, 6, 0, 0, 0, 3],
-  //                   [4, 0, 0, 8, 0, 3, 0, 0, 1],
-  //                   [7, 0, 0, 0, 2, 0, 0, 0, 6],
-  //                   [0, 6, 0, 0, 0, 0, 2, 8, 0],
-  //                   [0, 0, 0, 4, 1, 9, 0, 0, 5],
-  //                   [0, 0, 0, 0, 8, 0, 0, 7, 9]])
-  return new Board()
+  return new Board([[5, 3, 0, 0, 7, 0, 0, 0, 0],
+                    [6, 0, 0, 1, 9, 5, 0, 0, 0],
+                    [0, 9, 8, 0, 0, 0, 0, 6, 0],
+                    [8, 0, 0, 0, 6, 0, 0, 0, 3],
+                    [4, 0, 0, 8, 0, 3, 0, 0, 1],
+                    [7, 0, 0, 0, 2, 0, 0, 0, 6],
+                    [0, 6, 0, 0, 0, 0, 2, 8, 0],
+                    [0, 0, 0, 4, 1, 9, 0, 0, 5],
+                    [0, 0, 0, 0, 8, 0, 0, 7, 9]])
+  // return new Board()
 }
 
 let board
@@ -352,8 +330,5 @@ generateBTN.addEventListener("click", function (){
 solveBTN.addEventListener("click", function(){
   console.log(board)
   console.log(board.solve())
-})
-
-quick_solveBTN.addEventListener("click", function(){
-  console.log(board.quick_solve())
+  // board.animate()
 })
